@@ -237,7 +237,7 @@ r.debug.update = () => {
 
 if (r.development) app.stage.addChild(r.debug);
 
-
+let speed = 1;
 // create line (pipe and tea)
 const addLine = () => {
 
@@ -309,7 +309,8 @@ const addLine = () => {
         switch (r.gameState) {
             case 'game':
 
-                line.x -= r.mobile ? 2.5 : 3;
+                speed += 0.00005
+                line.x -= (r.mobile ? 2.5 : 3) * speed;
                 tea.rotation = Math.sin(r.t) * 0.2
 
 
@@ -348,6 +349,8 @@ const addLine = () => {
                 break;
             case 'title':
             case 'gameover':
+
+            console.log(speed);
 
                 line.alpha -= 0.05;
                 if (line.alpha < 0) {
