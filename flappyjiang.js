@@ -22,7 +22,7 @@ const h = r.mobile ? window.innerHeight : 480;
 const app = new PIXI.Application({ 
     width: w,
     height: h,
-    backgroundColor: 0x1099bb 
+    backgroundColor:  PIXI.utils.string2hex('#ff0000')
 });
 document.body.appendChild(app.view);
 
@@ -52,7 +52,7 @@ const play = (sound) => {
 
 
 // create cjj
-r.cjj = PIXI.Sprite.from('cjj.png');
+r.cjj = PIXI.Sprite.from('cjj2.png');
 r.cjj.anchor.set(0.5);
 r.cjj.x = w * 0.5;
 r.cjj.baseY = h * 0.65;
@@ -114,10 +114,10 @@ r.cjj.update = () => {
 
 // create title
 
-r.title = new PIXI.Text('陈姜姜喝奶茶', new PIXI.TextStyle({
+r.title = new PIXI.Text('陈姜姜打老虎', new PIXI.TextStyle({
     fontSize: r.mobile ? 45 : 60,
-    fill: '#000',
-    stroke: '#fff',
+    fill: '#ffffa8',
+    stroke: '#000',
     strokeThickness: 3,
 }));
 r.title.anchor.set(0.5);
@@ -143,7 +143,7 @@ r.title.update = () => {
 
             r.title.alpha += 0.02;
             if (r.title.alpha > 1) r.title.alpha = 1;
-            r.title.text = '陈姜姜喝奶茶'
+            r.title.text = '陈姜姜打老虎'
             break;
         case 'game':
             r.title.alpha -= 0.02;
@@ -151,7 +151,7 @@ r.title.update = () => {
             break;
         case 'gameover':
             
-            r.title.text = '陈凉凉凉凉了';
+            r.title.text = '陈姜姜躺平了';
 
             r.title.alpha += 0.02;
             if (r.title.alpha > 1) r.title.alpha = 1;
@@ -168,7 +168,7 @@ r.title.update = () => {
 // score
 r.score = new PIXI.Text('0', new PIXI.TextStyle({
     fontSize: 36,
-    fill: '#fff', // gradient
+    fill: '#ffffa8', // gradient
     stroke: '#000',
     strokeThickness: 3,
 }));
@@ -178,9 +178,10 @@ r.score.update = () => {
 }
 app.stage.addChild(r.score);
 
-r.text = new PIXI.Text(r.mobile ? '触摸屏幕狂喝奶茶' : '任意键狂喝奶茶', new PIXI.TextStyle({
+r.text = new PIXI.Text(r.mobile ? '触摸屏幕狂打老虎' : '任意键狂打老虎', new PIXI.TextStyle({
     fontSize: 20,
     align: 'center',
+    fill: '#ffffa8',
 }));
 r.text.anchor.set(0.5);
 r.text.x = w / 2;
@@ -190,7 +191,7 @@ app.stage.addChild(r.text);
 r.text.update = () => {
     switch(r.gameState) {
         case 'title':
-            r.text.text = r.mobile ? '触屏狂喝奶茶' : '任意键狂喝奶茶';
+            r.text.text = r.mobile ? '触屏狂打老虎' : '任意键狂打老虎';
             break;
         case 'game':
             r.text.alpha -= 0.05;
@@ -202,21 +203,23 @@ r.text.update = () => {
             let score = parseInt(r.score.text);
             let comment;
             if (score == 0) {
-                comment = '某种意义上你是个天才，嗯，0 杯。'
+                comment = '某种意义上你是个天才，嗯，0 只。'
             } else if (score == 1) {
-                comment = '做个人吧，才 1 杯。'
-            } else if (score <= 5) {
-                comment = `太差劲了，才 ${score} 杯。`
+                comment = '做个人吧，才 1 只。'
+			} else if (score == 2) {
+				comment = '两只老虎， 两只老虎跑得快……'
+			} else if (score <= 5) {
+                comment = `${score} 只，${'虎'.repeat(score)}生威`
             } else if (score <= 10) {
-                comment = `还行吧，普普通通喝个 ${score} 杯。`
+                comment = `${score} 只，如${'虎'.repeat(score)}添翼`
             } else if (score <= 20) {
-                comment = `哇，牛吖，${score} 杯！`
+                comment = `哇，龙精虎猛，${score} 只！`
             } else if (score <= 50) {
-                comment = `好帅啊！！！！陈姜姜喝了 ${score} 杯奶茶！`
+                comment = `大过年的，陈姜姜打了 ${score} 只老虎！不怕死吗！？`
             } else if (score <= 99) {
-                comment = `你说，你是不是开了修改器！居然喝 ${score} 杯！`
+                comment = `你说，cjj是不是武松再世！居然打了 ${score} 只！`
             } else {
-                comment = `呃， ${socre} 杯，燃烧你的卡路里！陈胖胖。`
+                comment = ` ${'虎'.repeat(score)} ！`
             }
             r.text.text = `${comment}\n${r.mobile ? '触屏' : '任意键'}原地复活`
             break;
@@ -252,7 +255,7 @@ const addLine = () => {
     let topY = center - halfGap;
     let bottomY = center + halfGap;
 
-    let pipe = PIXI.Sprite.from('pipe.png');
+    let pipe = PIXI.Sprite.from('pipe2.png');
     pipe.height = h;
     pipe.anchor.set(0.5);
     pipe.x = teaW / 2
@@ -264,17 +267,18 @@ const addLine = () => {
     mask.drawRect(0, 0, teaW, topY)
     mask.drawRect(0, bottomY, teaW, h)
 
-    let topHead = PIXI.Sprite.from('pipeHead.png');
+    let topHead = PIXI.Sprite.from('pipeHead2.png');
     topHead.scale.x = 1.2;
     topHead.anchor.set(0.5);
     topHead.x = teaW / 2;
     topHead.y = topY - 12;
 
-    let bottomHead = PIXI.Sprite.from('pipeHead.png');
+    let bottomHead = PIXI.Sprite.from('pipeHead2.png');
     bottomHead.scale.x = 1.2;
     bottomHead.anchor.set(0.5);
     bottomHead.x = teaW / 2;
     bottomHead.y = bottomY + 12;
+    
 
     let flip = Math.random() > 0.5;
     if (flip) {
@@ -283,7 +287,7 @@ const addLine = () => {
         bottomHead.scale.x *= -1;
     }
     
-    let tea = PIXI.Sprite.from('tea.png');
+    let tea = PIXI.Sprite.from('tiger.png');
     tea.anchor.set(0.5);
     tea.y = center;
     tea.x = teaW / 2;
