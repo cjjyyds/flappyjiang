@@ -1,7 +1,3 @@
-
-
-
-
 const teaW = 48;
 const teaH = 48;
 const cjjW = 36;
@@ -26,10 +22,8 @@ const app = new PIXI.Application({
 });
 document.body.appendChild(app.view);
 
-
 //
 const context = new AudioContext();
-
 let sounds = ['gan', 'ntmd', 'woc'];
 sounds.forEach(sound => {
 
@@ -49,7 +43,6 @@ const play = (sound) => {
     source.connect(context.destination);
     source.start();
 }
-
 
 // create cjj
 r.cjj = PIXI.Sprite.from('cjj2.png');
@@ -84,6 +77,7 @@ r.cjj.update = () => {
         }
 
             break;
+
         case 'game':
         case 'dying':
             
@@ -111,9 +105,7 @@ r.cjj.update = () => {
     
 }
 
-
 // create title
-
 r.title = new PIXI.Text('陈姜姜打老虎', new PIXI.TextStyle({
     fontSize: r.mobile ? 45 : 60,
     fill: '#ffffa8',
@@ -136,7 +128,6 @@ r.title.update = () => {
         r.titleStamp = r.t;
         r.title.rotation *= -1;
     }
-
     
     switch(r.gameState) {
         case 'title':
@@ -145,21 +136,18 @@ r.title.update = () => {
             if (r.title.alpha > 1) r.title.alpha = 1;
             r.title.text = '陈姜姜打老虎'
             break;
+
         case 'game':
             r.title.alpha -= 0.02;
             if (r.title.alpha < 0) r.title.alpha = 0;
             break;
+
         case 'gameover':
             
             r.title.text = '陈姜姜躺平了';
-
             r.title.alpha += 0.02;
             if (r.title.alpha > 1) r.title.alpha = 1;
             break;
-
-
-            
-            
 
     }
     
@@ -226,7 +214,6 @@ r.text.update = () => {
     }
 }
 
-
 // debug
 r.debug = new PIXI.Text('debuging', new PIXI.TextStyle({fontSize: 12}));
 r.debug.y = h - 36;
@@ -237,7 +224,6 @@ r.debug.update = () => {
 
 if (r.development) app.stage.addChild(r.debug);
 
-let speed = 1;
 // create line (pipe and tea)
 const addLine = () => {
 
@@ -279,7 +265,6 @@ const addLine = () => {
     bottomHead.x = teaW / 2;
     bottomHead.y = bottomY + 12;
     
-
     let flip = Math.random() > 0.5;
     if (flip) {
         pipe.scale.x *= -1;
@@ -297,7 +282,6 @@ const addLine = () => {
     line.tea = tea;
     line.center = center;
 
-
     line.addChild(pipe);
     line.addChild(mask);
     line.addChild(topHead);
@@ -309,11 +293,9 @@ const addLine = () => {
         switch (r.gameState) {
             case 'game':
 
-                speed += 0.00005
+                let speed = 1 + parseInt(r.score.text) * 0.01
                 line.x -= (r.mobile ? 2.5 : 3) * speed;
                 tea.rotation = Math.sin(r.t) * 0.2
-
-
 
                 if (line.x < -100) {
                     app.stage.removeChild(line);
@@ -344,13 +326,10 @@ const addLine = () => {
 
                 }
 
-
-
                 break;
+
             case 'title':
             case 'gameover':
-
-            console.log(speed);
 
                 line.alpha -= 0.05;
                 if (line.alpha < 0) {
@@ -361,14 +340,9 @@ const addLine = () => {
                 break;
         }
 
-
-
     }
 
 }
-
-
-
 
 app.ticker.add((delta) => {
 
@@ -406,7 +380,6 @@ const action = (ev) => {
         case 'gameover': r.gameState = 'title'; break;
     }
 
-    
 }
 
 document.addEventListener('keydown', ev => action(ev) ) ;
@@ -418,8 +391,3 @@ document.addEventListener('touchstart', ev => {
     action.touch = true;
     action(ev);
 } );
-
-
-
-
-
