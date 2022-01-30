@@ -22,7 +22,7 @@ const h = r.mobile ? window.innerHeight : 480;
 const app = new PIXI.Application({ 
     width: w,
     height: h,
-    backgroundColor:  PIXI.utils.string2hex('#ff0000')
+    backgroundColor:  PIXI.utils.string2hex('#ff3333')
 });
 document.body.appendChild(app.view);
 
